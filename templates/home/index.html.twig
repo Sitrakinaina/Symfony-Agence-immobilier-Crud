@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les biens
+{% endblock %}
+
+{% block body %}
+	<div class="ml-5 mt-5">
+		<div class="grid grid-cols-4 gap-4 content-evenly justify-items-center">
+			{% for property in  properties %}
+
+				<div class="bg-gray-100 rounded-lg p-5 ">
+					<div class="w-60 mb-3 rounded-sm drop-shadow-md "><img src="{{ property.image}}"/></div>
+					<div class="text-center text-xl text-emerald-700 p-2">
+						{{ property.title}}
+
+					</div>
+					<div class="bg-gray-200">
+						<ul class="list-type-none p-3">
+							<li>
+								surfaces:
+								<span class="text-gray-700">{{ property.surface}}
+									m</span>
+
+							</li>
+							<li>
+								Prix:
+								<span class="text-sm text-red-500">
+									{{property.price }}
+									$</span>
+							</li>
+							<li class="text-sm">
+								<span class=" text-orange-700">{{property.rooms}}
+
+								</span>
+								<span class="text-gray-500">
+									{% if property.rooms < 2 %}
+										chambre
+									{% else %}
+										chambres
+									{% endif %}
+								</span>
+
+							</li>
+						</li>
+						<li class="text-sm">
+
+							<span class="text-orange-700">{{property.floor}}
+							</span>
+							<span class="text-gray-500">
+								{% if property.rooms < 2 %}
+									etage
+								{% else %}
+									etages
+								{% endif %}
+							</span>
+
+
+						</li>
+
+					</ul>
+					<div class="flex flex-row justify-center pb-3">
+						<div class="bg-sky-800 p-1 mr-1 text-gray-100 rounded-md text-sm hover:text-gray-800 hover:bg-cyan-600 duration-500">
+							<a href="{{ path('property.show',{id:property.id})}}">Details</a>
+						</div>
+						<div class="bg-lime-400 p-1 text-gray-800 rounded-md hover:bg-lime-600 hover:text-gray-900 duration-500 ">
+							<a href="#">
+								<span class="text-sm">
+									Contacter l'agence</span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		{% endfor %}
+	</div>
+</div>{% endblock %}

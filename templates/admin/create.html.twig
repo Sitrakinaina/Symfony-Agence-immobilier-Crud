@@ -1,0 +1,9 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+	<div class="">
+		<a href={{path('app.admin.index')}} class="btn btn-primary">
+			Retour
+		</a>
+		{{include('admin/property/form.html.twig' , {form:form ,button : 'Ajouter'})}}
+	</div>
+{% endblock %}
