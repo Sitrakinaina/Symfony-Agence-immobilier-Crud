@@ -5,10 +5,34 @@
 
 {% block body %}
 	<div class="ml-5 mt-5">
+		<div class="jumbotron">
+			<div class="container">
+				{{ form_start(form) }}
+				<div class="form-row">
+					<div class="col">
+						{{ form_row(form.surfaceMin)}}
+					</div>
+					<div class="col">
+						{{ form_row(form.budgetMax)}}
+					</div>
+					<div class="col">
+						{{ form_row(form.options)}}
+					</div>
+					<div class="col">
+						<button class="btn btn-primary">Rechercher</button>
+					</div>
+				</div>
+				{{ form_end(form) }}
+
+			</div>
+
+		</div>
+
 		<div class="grid grid-cols-4 gap-4 content-evenly justify-items-center">
+
 			{% for property in  properties %}
 
-				<div class="bg-gray-100 rounded-lg p-5 ">
+				<div class="bg-gray-100 rounded-lg p-5">
 					<div class="w-60 mb-3 rounded-sm drop-shadow-md "><img src="{{ property.image}}"/></div>
 					<div class="text-center text-xl text-emerald-700 p-2">
 						{{ property.title}}
@@ -74,5 +98,9 @@
 
 			</div>
 		{% endfor %}
+
 	</div>
-</div>{% endblock %}
+	<div class="mt-2 items-center">
+		{{ knp_pagination_render(properties) }}
+	</div>
+{% endblock %}

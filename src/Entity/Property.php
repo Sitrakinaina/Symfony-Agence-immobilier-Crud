@@ -3,9 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[UniqueEntity('title')]
+
+
 class Property
 {
     const HEAT = [
@@ -17,6 +25,7 @@ class Property
     {
         $this->created_at = new \DateTimeImmutable();
         $this->image = "https://blog.hubspot.fr/hs-fs/hubfs/media/marketingimmobilier.jpeg?width=610&height=406&name=marketingimmobilier.jpeg";
+        $this->options = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -25,12 +34,19 @@ class Property
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    // #[Assert\Unique]
+
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Range(
+        min: 100,
+        max: 500
+        // notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
+    )]
     private ?int $surface = null;
 
     #[ORM\Column]
@@ -49,12 +65,16 @@ class Property
     private ?int $heat = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex('/^[a-zA-Z]+$/')]
+
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex('/^[0-9]{3}$/')]
+
     private ?string $postal_code = null;
 
     #[ORM\Column(options: ['default' => false])]
@@ -65,6 +85,9 @@ class Property
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+
+    #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'properties')]
+    private Collection $options;
 
     public function getId(): ?int
     {
@@ -242,6 +265,33 @@ class Property
     public function setImage(string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Option>
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOption(Option $option): static
+    {
+        if (!$this->options->contains($option)) {
+            $this->options->add($option);
+            $option->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(Option $option): static
+    {
+        if ($this->options->removeElement($option)) {
+            $option->removeProperty($this);
+        }
 
         return $this;
     }

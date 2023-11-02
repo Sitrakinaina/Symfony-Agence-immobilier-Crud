@@ -7,15 +7,22 @@
 			{% block title %}{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="https://cdn.tailwindcss.com"></script>
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1.0">
+		{# <script src="https://cdn.tailwindcss.com"></script> #}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
 		<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-		{% block stylesheets %}{% endblock %}
-		{% block javascripts %}{% endblock %}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+		{% block javascripts %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 	</head>
 	<body>
-		<div class="header">
+		<div class="">
 			<div class="flex justify-between  bg-sky-900">
 				<div class="text-gray-400  pt-3 pb-0 text-center m-1 ml-2 font-bold text-lg">
 					<i data-feather="home"></i>MA SUPER AGENCE
@@ -32,8 +39,11 @@
 
 					<a class="text-bold p-5 text-md font-bold pt-3  hover:bg-gray-200 duration-300 drop-shadow-md">ACCEUIL</a>
 					<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow-md" href="{{ path('app_home') }}">LES BIENS</a>
-					<a class="text-bold p-5  text-md font-bold pt-3 hover:bg-gray-200 duration-300 drop-shadow-md">A PROPOS</a>
-					<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow" href={{ path('app.admin.index')}}>ADMIN</a>
+					<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow" href="{{ path('app.admin.index')}}">ADMIN</a>
+
+					{% if app.user %}
+						<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow" href="{{ path('app_logout')}}">Deconnecter</a>
+					{% endif %}
 
 				</div>
 
@@ -41,6 +51,11 @@
 		</div>
 
 		{% block body %}{% endblock %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+		<script>
+			$('select').select2();
+		</script>
 	</body>
+
 
 </html>

@@ -1,6 +1,50 @@
-<div class="m-5">
+<div class="p-10">
 	{{ form_start(form) }}
-	{{ form_rest(form)}}
+	<div class="row">
+		<div class="col">
+			{{form_row(form.title)}}
+		</div>
+		<div class="col">
+			{{form_row(form.description)}}
+		</div>
+		<div class="col">
+			{{form_row(form.floor)}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			{{form_row(form.heat)}}
+		</div>
+		<div class="col">
+			{{form_row(form.bedrooms)}}
+		</div>
+		<div class="col">
+			{{form_row(form.city)}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			{{form_row(form.surface)}}
+		</div>
+		<div class="col">
+			{{form_row(form.postal_code)}}
+		</div>
+		<div class="col">
+			{{form_row(form.price)}}
+		</div>
+		<div class="row">
+			<div class="col">
+				{{form_row(form.rooms)}}
+			</div>
+			<div class="col">
+				{{form_row(form.address)}}
+			</div>
+			<div class="col">
+				{{form_row(form.sold)}}
+			</div>
+
+		</div>
+	</div>
 	<button class="btn btn-primary mt-5 p-3 fw-bold">{{button | default('Enregistrer')}}</button>
 
 	{{ form_end(form)}}

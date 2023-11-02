@@ -3,17 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(PropertyRepository $repo, EntityManagerInterface $em): Response
+    public function index(PropertyRepository $repo, PaginatorInterface $paginator, Request $request): Response
     {
 
         // for ($i = 0; $i <= 10; $i++) {
@@ -34,14 +38,23 @@ class HomeController extends AbstractController
 
         //     $em->flush();
         // }
-        $properties = $repo->findAll();
+        $search = new PropertySearch();
+        $form  = $this->createForm(PropertySearchType::class, $search);
+        $form->handleRequest($request);
+        $properties = $paginator->paginate(
+            $repo->findQueryAllVisible($search),
+            $request->query->getInt('page', 1),
+            5
+        );
+        // $properties = $repo->findAllVisible();
 
 
 
 
         return $this->render('home/index.html.twig', [
             'properties' => $properties,
-            // 'helloController' => 'helloController',
+            'form' => $form
+
         ]);
     }
     #[Route('/biens/{id}', name: "property.show")]

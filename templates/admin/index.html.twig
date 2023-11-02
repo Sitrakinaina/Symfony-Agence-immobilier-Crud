@@ -1,12 +1,12 @@
 {% extends 'admin/base.html.twig' %}
 {% block body %}
-	<div class="m-3 d-flex flex-column justify-content-center align-items-center">
+	<div class="m-4 d-flex flex-column justify-content-center align-items-center">
 		<div class="pb-5">
-			<a href={{path('app.admin.create')}} class="btn btn-info p-3 fw-bold fs-3 mx-auto">
+			<a href={{path('app.admin.create')}} class="btn  p-3 fw-bold fs-3 mx-auto bg-gradient-to-r from-cyan-500 to-blue-500 text-gray-700">
 				<i class="bi bi-plus bi-3x" style="font-size:50px;"></i>
 				<p>Ajouter un bien</p>
 			</a>
-			<a href={{path('app.admin.create')}} class="btn btn-danger p-3 fw-bold fs-3 mx-auto">
+			<a href={{path('app.admin.create')}} class="btn  p-3 fw-bold fs-3 mx-auto bg-gradient-to-r from-red-700 to-red-400 text-gray-700 ">
 				<i class="bi bi-person" style="font-size:50px;"></i>
 				<p>Voir les membres</p>
 			</a>
@@ -30,6 +30,8 @@
 					<th>
 						prix
 					</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,7 +43,7 @@
 						<th class="text-danger">{{ property.price}}
 							$</th>
 						<th>
-							<a class="btn btn-primary" href={{path('app.admin.edit',{id:property.id} )}}>
+							<a class="btn btn-primary fs-7" href={{path('app.admin.edit',{id:property.id} )}}>
 								<i class="bi bi-pen"></i>
 							</a>
 						</th>
@@ -49,7 +51,7 @@
 							<form method="post" action={{path('app.admin.delete',{id:property.id} )}} onsubmit="return confirm(' voulez vous confirmer la suppression ?')">
 								<input type="hidden" name="_method" value="DELETE"/>
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id)}}"/>
-								<button class="btn btn-danger">
+								<button class="btn btn-danger fs-7">
 									<i class="bi bi-trash"></i>
 								</button>
 							</form>
@@ -58,5 +60,8 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		<div class="navigation mt-2">
+			{{ knp_pagination_render(properties) }}
+		</div>
 	</div>
 {% endblock %}
