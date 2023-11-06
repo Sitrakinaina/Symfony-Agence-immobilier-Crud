@@ -2,16 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\PropertyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[UniqueEntity('title')]
+#[Vich\Uploadable]
+
 
 
 class Property
@@ -24,7 +29,6 @@ class Property
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
-        $this->image = "https://blog.hubspot.fr/hs-fs/hubfs/media/marketingimmobilier.jpeg?width=610&height=406&name=marketingimmobilier.jpeg";
         $this->options = new ArrayCollection();
     }
 
@@ -37,6 +41,15 @@ class Property
     // #[Assert\Unique]
 
     private ?string $title = null;
+
+    #[Assert\File(
+        extensions: ['jpeg', 'jpg'],
+        extensionsMessage: 'Entrer une image de type .jpeg',
+    )]
+    #[Vich\UploadableField(mapping: 'property_image', fileNameProperty: 'fileName')]
+    private ?File $imageFile = null;
+
+
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -83,11 +96,20 @@ class Property
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $fileName = null;
+
 
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'properties')]
     private Collection $options;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
+
+
+
+
+
 
     public function getId(): ?int
     {
@@ -257,16 +279,14 @@ class Property
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getFileName(): ?string
     {
-        return $this->image;
+        return $this->fileName;
     }
 
-    public function setImage(string $image): static
+    public function setFileName(?string $fileName): void
     {
-        $this->image = $image;
-
-        return $this;
+        $this->fileName = $fileName;
     }
 
     /**
@@ -292,6 +312,30 @@ class Property
         if ($this->options->removeElement($option)) {
             $option->removeProperty($this);
         }
+
+        return $this;
+    }
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

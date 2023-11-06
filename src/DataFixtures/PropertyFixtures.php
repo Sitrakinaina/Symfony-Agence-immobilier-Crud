@@ -11,9 +11,12 @@ class PropertyFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        // $product = new Product();
+        // $manager->persist($product);
+
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $property = new Property();
 
             $property->setTitle($faker->words(3, true))
@@ -27,7 +30,6 @@ class PropertyFixtures extends Fixture
                 ->setCity($faker->city)
                 ->setAddress($faker->address)
                 ->setPostalCode(rand(101, 103))
-                ->setImage("https://blog.hubspot.fr/hs-fs/hubfs/media/marketingimmobilier.jpeg?width=610&height=406&name=marketingimmobilier.jpeg")
                 ->setSold(false);
             $manager->persist($property);
         }

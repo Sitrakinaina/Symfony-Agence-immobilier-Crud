@@ -8,17 +8,17 @@
 		<div class="jumbotron">
 			<div class="container">
 				{{ form_start(form) }}
-				<div class="form-row">
-					<div class="col">
+				<div class="">
+					<div class="">
 						{{ form_row(form.surfaceMin)}}
 					</div>
-					<div class="col">
+					<div class="">
 						{{ form_row(form.budgetMax)}}
 					</div>
-					<div class="col">
+					<div class="">
 						{{ form_row(form.options)}}
 					</div>
-					<div class="col">
+					<div class="">
 						<button class="btn btn-primary">Rechercher</button>
 					</div>
 				</div>
@@ -33,7 +33,7 @@
 			{% for property in  properties %}
 
 				<div class="bg-gray-100 rounded-lg p-5">
-					<div class="w-60 mb-3 rounded-sm drop-shadow-md "><img src="{{ property.image}}"/></div>
+					<div class="w-60 mb-3 rounded-sm drop-shadow-md "><img src="{{ vich_uploader_asset(property,'imageFile') }}"/></div>
 					<div class="text-center text-xl text-emerald-700 p-2">
 						{{ property.title}}
 

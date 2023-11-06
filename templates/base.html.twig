@@ -11,9 +11,8 @@
 		name="viewport" content="width=device-width, initial-scale=1.0">
 		{# <script src="https://cdn.tailwindcss.com"></script> #}
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
-		<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
@@ -22,39 +21,15 @@
 		{% endblock %}
 	</head>
 	<body>
-		<div class="">
-			<div class="flex justify-between  bg-sky-900">
-				<div class="text-gray-400  pt-3 pb-0 text-center m-1 ml-2 font-bold text-lg">
-					<i data-feather="home"></i>MA SUPER AGENCE
-				</div>
-				<div class="flex pt-3 space-x-4 ">
-					<input class="rounded-md w-50 h-8 focus:outline-0 px-3 " placeholder="Rechercher" type="text"/>
-					<div class="flex justify-center  text-bold rounded-sm bg-sky-500  text-gray-800 w-10 h-8 pt-2 ">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewbox="0 0 16 16">
-							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-						</svg>
-					</div>
-				</div>
-				<div class="flex text-gray-400 space-x-14 pr-10">
-
-					<a class="text-bold p-5 text-md font-bold pt-3  hover:bg-gray-200 duration-300 drop-shadow-md">ACCEUIL</a>
-					<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow-md" href="{{ path('app_home') }}">LES BIENS</a>
-					<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow" href="{{ path('app.admin.index')}}">ADMIN</a>
-
-					{% if app.user %}
-						<a class="text-bold p-5 text-md font-bold  pt-3 hover:bg-gray-200 duration-300 drop-shadow" href="{{ path('app_logout')}}">Deconnecter</a>
-					{% endif %}
-
-				</div>
-
-			</div>
-		</div>
-
+		{# <div class="">
+																																						 #}
+		{{include('navbar.html.twig')}}
 		{% block body %}{% endblock %}
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 		<script>
 			$('select').select2();
 		</script>
+
 	</body>
 
 
